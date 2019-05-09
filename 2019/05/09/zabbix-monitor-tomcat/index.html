@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://www.mluoky.com">
-  <title>Archives | Andy Luo</title>
+  <title>zabbix 监控 tomcat | Andy Luo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Andy Luo">
-<meta property="og:url" content="http://www.mluoky.com/archives/index.html">
+  <meta name="description" content="1、安装zabbixzabbix server 的安装 源码安装：1./configure --prefix=/app/zabbix/ --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2 --enable-java --with-ssh2 编辑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zabbix 监控 tomcat">
+<meta property="og:url" content="http://www.mluoky.com/2019/05/09/zabbix-monitor-tomcat/index.html">
 <meta property="og:site_name" content="Andy Luo">
+<meta property="og:description" content="1、安装zabbixzabbix server 的安装 源码安装：1./configure --prefix=/app/zabbix/ --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2 --enable-java --with-ssh2 编辑">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-09T07:20:35.759Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Andy Luo">
+<meta name="twitter:title" content="zabbix 监控 tomcat">
+<meta name="twitter:description" content="1、安装zabbixzabbix server 的安装 源码安装：1./configure --prefix=/app/zabbix/ --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2 --enable-java --with-ssh2 编辑">
   
     <link rel="alternative" href="/atom.xml" title="Andy Luo" type="application/atom+xml">
   
@@ -146,49 +150,177 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-zabbix-monitor-tomcat" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/09/zabbix-monitor-tomcat/" class="archive-article-date">
-  	<time datetime="2019-05-09T07:11:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/09/zabbix-monitor-tomcat/">zabbix 监控 tomcat</a>
+    <h1 class="article-title" itemprop="name">
+      zabbix 监控 tomcat
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/2019/05/09/zabbix-monitor-tomcat/" class="archive-article-date">
+  	<time datetime="2019-05-09T07:11:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、安装zabbix<br>zabbix server 的安装</p>
+<p>源码安装：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/app/zabbix/ --<span class="built_in">enable</span>-server --<span class="built_in">enable</span>-agent --with-mysql --<span class="built_in">enable</span>-ipv6 --with-net-snmp --with-libcurl --with-libxml2 --<span class="built_in">enable</span>-java --with-ssh2</span><br></pre></td></tr></table></figure></p>
+<p>编辑zabbix/sbin/zabbix_java/settings.sh  配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@manage-server]<span class="comment"># grep -v "^#" settings.sh |grep -v "^$"</span></span><br><span class="line">LISTEN_IP=<span class="string">"10.252.80.196"</span></span><br><span class="line">LISTEN_PORT=10052</span><br><span class="line">PID_FILE=<span class="string">"/tmp/zabbix_java.pid"</span></span><br><span class="line"> START_POLLERS=5</span><br></pre></td></tr></table></figure>
+<p>然后启动</p>
+<p>编辑zabbix/etc/zabbix_server.conf</p>
+<p>2、安装java环境<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/app/jdk1.8.0_60</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br></pre></td></tr></table></figure></p>
+<p>3、下载jar包启动tomcat<br>下载 catalina-jmx-remote.jar 不然后面启动的时候会报错。</p>
+<p>下载地址：<a href="http://pan.baidu.com/s/1o6EePi6" target="_blank" rel="noopener">http://pan.baidu.com/s/1o6EePi6</a></p>
+<p>放在tomcat/lib 目录下</p>
+<p>不然会报如下错误：</p>
+<p>4、修改tomcat server.xml配置文件，添加以下内容：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.mbeans.JmxRemoteLifecycleListener"</span> <span class="attr">rmiRegistryPortPlatform</span>=<span class="string">"12345"</span> <span class="attr">rmiServerPortPlatform</span>=<span class="string">"12346"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>如下图：</p>
+<p>—–这里的Port要和zabbix服务器定义的监听jmx端口保持一致</p>
+<p>5、修改tomcat/bin目录下catalina.sh，添加以下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CATALINA_OPTS=<span class="string">"-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=IP"</span></span><br></pre></td></tr></table></figure></p>
+<p>如下图：</p>
+<p>备注（192.168.85.128是客户端ip地址，即tomcat本身ip）</p>
+<p>—–这里的Port要和zabbix服务器定义的监听jmx端口保持一致</p>
+<p>6、重启tomcat</p>
+<p>7、测试需要的jar包<br>下载cmdline-jmxclient-0.10.3.jar</p>
+<p>下载地址：<a href="http://pan.baidu.com/s/1kT4H4nt" target="_blank" rel="noopener">http://pan.baidu.com/s/1kT4H4nt</a></p>
+<p>测试如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@manage-server app]<span class="comment"># java -jar cmdline-jmxclient-0.10.3.jar - 10.252.117.233:12345 "java.lang:type=Memory" HeapMemoryUsage</span></span><br><span class="line">10/26/2015 19:34:24 +0800 org.archive.jmx.Client HeapMemoryUsage: </span><br><span class="line">committed: 1311113216</span><br><span class="line">init: 1073741824</span><br><span class="line">max: 1908932608</span><br><span class="line">used: 160932760</span><br></pre></td></tr></table></figure>
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/weixinpay.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://www.mluoky.com/2019/05/09/zabbix-monitor-tomcat/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
+
   
 
-    
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -211,8 +343,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

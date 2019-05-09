@@ -148,36 +148,49 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-zabbix-monitor-tomcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/08/hello-world/">Hello World</a>
+      <a class="article-title" href="/2019/05/09/zabbix-monitor-tomcat/">zabbix 监控 tomcat</a>
     </h1>
   
 
         
-        <a href="/2019/05/08/hello-world/" class="archive-article-date">
-  	<time datetime="2019-05-08T07:57:08.659Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
+        <a href="/2019/05/09/zabbix-monitor-tomcat/" class="archive-article-date">
+  	<time datetime="2019-05-09T07:11:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+        <p>1、安装zabbix<br>zabbix server 的安装</p>
+<p>源码安装：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/app/zabbix/ --<span class="built_in">enable</span>-server --<span class="built_in">enable</span>-agent --with-mysql --<span class="built_in">enable</span>-ipv6 --with-net-snmp --with-libcurl --with-libxml2 --<span class="built_in">enable</span>-java --with-ssh2</span><br></pre></td></tr></table></figure></p>
+<p>编辑zabbix/sbin/zabbix_java/settings.sh  配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@manage-server]<span class="comment"># grep -v "^#" settings.sh |grep -v "^$"</span></span><br><span class="line">LISTEN_IP=<span class="string">"10.252.80.196"</span></span><br><span class="line">LISTEN_PORT=10052</span><br><span class="line">PID_FILE=<span class="string">"/tmp/zabbix_java.pid"</span></span><br><span class="line"> START_POLLERS=5</span><br></pre></td></tr></table></figure>
+<p>然后启动</p>
+<p>编辑zabbix/etc/zabbix_server.conf</p>
+<p>2、安装java环境<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/app/jdk1.8.0_60</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br></pre></td></tr></table></figure></p>
+<p>3、下载jar包启动tomcat<br>下载 catalina-jmx-remote.jar 不然后面启动的时候会报错。</p>
+<p>下载地址：<a href="http://pan.baidu.com/s/1o6EePi6" target="_blank" rel="noopener">http://pan.baidu.com/s/1o6EePi6</a></p>
+<p>放在tomcat/lib 目录下</p>
+<p>不然会报如下错误：</p>
+<p>4、修改tomcat server.xml配置文件，添加以下内容：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Listener</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.mbeans.JmxRemoteLifecycleListener"</span> <span class="attr">rmiRegistryPortPlatform</span>=<span class="string">"12345"</span> <span class="attr">rmiServerPortPlatform</span>=<span class="string">"12346"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>如下图：</p>
+<p>—–这里的Port要和zabbix服务器定义的监听jmx端口保持一致</p>
+<p>5、修改tomcat/bin目录下catalina.sh，添加以下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CATALINA_OPTS=<span class="string">"-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=IP"</span></span><br></pre></td></tr></table></figure></p>
+<p>如下图：</p>
+<p>备注（192.168.85.128是客户端ip地址，即tomcat本身ip）</p>
+<p>—–这里的Port要和zabbix服务器定义的监听jmx端口保持一致</p>
+<p>6、重启tomcat</p>
+<p>7、测试需要的jar包<br>下载cmdline-jmxclient-0.10.3.jar</p>
+<p>下载地址：<a href="http://pan.baidu.com/s/1kT4H4nt" target="_blank" rel="noopener">http://pan.baidu.com/s/1kT4H4nt</a></p>
+<p>测试如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@manage-server app]<span class="comment"># java -jar cmdline-jmxclient-0.10.3.jar - 10.252.117.233:12345 "java.lang:type=Memory" HeapMemoryUsage</span></span><br><span class="line">10/26/2015 19:34:24 +0800 org.archive.jmx.Client HeapMemoryUsage: </span><br><span class="line">committed: 1311113216</span><br><span class="line">init: 1073741824</span><br><span class="line">max: 1908932608</span><br><span class="line">used: 160932760</span><br></pre></td></tr></table></figure>
       
 
       
@@ -189,7 +202,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/08/hello-world/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/05/09/zabbix-monitor-tomcat/">展开全文 >></a>
         </p>
       
 
@@ -365,22 +378,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           
             <li class="search-li">
               <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
             </li>
           
         </ul>
