@@ -18,7 +18,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://www.mluoky.com/images/pasted-7.png">
 <meta property="og:image" content="http://www.mluoky.com/images/pasted-8.png">
-<meta property="og:updated_time" content="2019-05-10T08:18:41.720Z">
+<meta property="og:updated_time" content="2019-05-14T07:56:00.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="运维工程师面试题及问题整理">
 <meta name="twitter:description" content="1 . Linux系统的开机启动顺序加载BIOS–&amp;gt;读取MBR–&amp;gt;Boot Loader–&amp;gt;加载内核–&amp;gt;用户层init一句inittab文件来设定系统运行的等级(一般3或者5，3是多用户命令行，5是界面)–&amp;gt;init进程执行rc.syninit–&amp;gt;启动内核模块–&amp;gt;执行不同级别运行的脚本程序–&amp;gt;执行/etc/rc.d/rc.local(本地运行服务)–">
@@ -194,7 +194,8 @@
 <p>6 . 简述3次握手4次挥手<br>TCP三次握手<br>所谓三次握手(Three-way Handshake)，是指建立一个TCP连接时，需要客户端和服务器总共发送3个包。<br>三次握手的目的是连接服务器指定端口，建立TCP连接,并同步连接双方的序列号和确认号并交换 TCP 窗口大小信息.在socket编程中，客户端执行connect()时。将触发三次握手。<br>第一次握手:<br>客户端发送一个TCP的SYN标志位置1的包指明客户打算连接的服务器的端口，以及初始序号X,保存在包头的序列号(Sequence Number)字段里<br>第二次握手:<br>服务器发回确认包(ACK)应答。即SYN标志位和ACK标志位均为1同时，将确认序号(Acknowledgement Number)设置为客户的I S N加1以.即X+1。<br>第三次握手.<br>客户端再次发送确认包(ACK) SYN标志位为0,ACK标志位为1.并且把服务器发来ACK的序号字段+1,放在确定字段中发送给对方.并且在数据段放写ISN的<br><img class="hj_img" src="\images\pasted-7.png"><br>TCP 四次挥手<br>TCP的连接的拆除需要发送四个包，因此称为四次挥手(four-way handshake)。客户端或服务器均可主动发起挥手动作，在socket编程中，任何一方执行close()操作即可产生挥手操作。<br><img class="hj_img" src="\images\pasted-8.png"></p>
 <p>7 . Iptables有哪4表5链<br>4个表:filter,nat,mangle,raw，默认表是filter（没有指定表的时候就是filter表）。表的处理优先级：raw&gt;mangle&gt;nat&gt;filter。<br>filter：一般的过滤功能<br>nat:用于nat功能（端口映射，地址映射等）<br>mangle:用于对特定数据包的修改<br>raw:有限级最高，设置raw时一般是为了不再让iptables做数据包的链接跟踪处理，提高性能<br>5个链：PREROUTING,INPUT,FORWARD,OUTPUT,POSTROUTING。<br>  PREROUTING:数据包进入路由表之前<br>  INPUT:通过路由表后目的地为本机<br>  FORWARD:通过路由表后，目的地不为本机<br>  OUTPUT:由本机产生，向外转发</p>
 <p>8 . docker 中Makefile 下的 copy与add 的区别<br>ADD 指令和 COPY 的格式和性质基本一致。但是在 COPY 基础上增加了一些功能。<br>比如 &lt;源路径&gt; 可以是一个 URL，这种情况下，Docker 引擎会试图去下载这个链接的文件放到 &lt;目标路径&gt; 去。下载后的文件权限自动设置为 600，如果这并不是想要的权限，那么还需要增加额外的一层 RUN进行权限调整，另外，如果下载的是个压缩包，需要解压缩，也一样还需要额外的一层 RUN 指令进行解压缩。所以不如直接使用 RUN 指令，然后使用 wget 或者 curl 工具下载，处理权限、解压缩、然后清理无用文件更合理。因此，这个功能其实并不实用，而且不推荐使用。<br>如果 &lt;源路径&gt; 为一个 tar 压缩文件的话，压缩格式为 gzip, bzip2 以及 xz 的情况下，ADD 指令将会自动解压缩这个压缩文件到 &lt;目标路径&gt; 去。</p>
-<p>9 . docker 利用了哪些技术 ？<br>巴拉巴拉一堆<br>10 . cookie 和session 的区别详解<br>1、cookie数据存放在客户的浏览器上，session数据放在服务器上。<br>2、cookie不是很安全，别人可以分析存放在本地的COOKIE并进行COOKIE欺骗考虑到安全应当使用session。<br>3、session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能考虑到减轻服务器性能方面，应当使用COOKIE。<br>4、单个cookie保存的数据不能超过4K，很多浏览器都限制一个站点最多保存20个cookie。<br>5、所以个人建议：将登陆信息等重要信息存放为SESSION，其他信息如果需要保留，可以放在COOKIE中</p>
+<p>9 . docker 利用了哪些技术 ？<br>Linux 命名空间（namespaces）、控制组(control groups)和 UnionFS( union filesystem)三大技术支撑了目前 Docker 的实现，也是 Docker 能够出现的最重要原因。</p>
+<p>10 . cookie 和session 的区别详解<br>1、cookie数据存放在客户的浏览器上，session数据放在服务器上。<br>2、cookie不是很安全，别人可以分析存放在本地的COOKIE并进行COOKIE欺骗考虑到安全应当使用session。<br>3、session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能考虑到减轻服务器性能方面，应当使用COOKIE。<br>4、单个cookie保存的数据不能超过4K，很多浏览器都限制一个站点最多保存20个cookie。<br>5、所以个人建议：将登陆信息等重要信息存放为SESSION，其他信息如果需要保留，可以放在COOKIE中</p>
 
       
 
