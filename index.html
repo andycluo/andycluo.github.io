@@ -152,6 +152,70 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jinja2-模板不出特殊字符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/03/jinja2-模板不出特殊字符/">jinja2 模板不出特殊字符</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/03/jinja2-模板不出特殊字符/" class="archive-article-date">
+  	<time datetime="2019-06-03T12:27:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在用python的模板引擎jinja2时，发现一个问题，由于它是匹配&#123;&#123;&#125;&#125;双花括号的，所以一旦遇到花括号的时候他就会识别出来，但是某些情况下我们是不想让他识别的，这时候可以对不想让他识别的进行特殊处理：&#123;&#123;&apos;这里是不让他处理的内容&apos;&#125;&#125;。</span><br><span class="line">这样类似的表达式，这时候是不希望引擎去处理这个花括号的，所以可以改写为</span><br><span class="line">#&#123;&#123;&apos;&#123;&apos;&#125;&#125;id, jdbcType=integer&#123;&#123;&apos;&#125;&apos;&#125;&#125;,</span><br><span class="line">前后都加两个花括号和一个引号即可。</span><br></pre></td></tr></table></figure>
+<p>例如下面的模板<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">from jinja2 import Template</span><br><span class="line">ip = &quot;192.168.8.19&quot;</span><br><span class="line">JOB= &quot;toc&quot;</span><br><span class="line">docker_name=&quot;&quot;</span><br><span class="line">template = Template(&quot;&quot;&quot;</span><br><span class="line">  - alert: container_instercen_down</span><br><span class="line">    expr: absent(container_last_seen&#123;hostname=&quot;&#123;&#123; IP &#125;&#125;:58080&quot;,name=&quot;&#123;&#123; DockerName &#125;&#125;&quot;&#125;) == 1</span><br><span class="line">    for: 5m</span><br><span class="line">    labels:</span><br><span class="line">      job: &#123;&#123; JOB &#125;&#125;</span><br><span class="line">    annotations:</span><br><span class="line">      summary: &quot;&#123;&#123;&apos;&#123;&#123;&apos;&#125;&#125;&quot;$labels.hostname&quot;&#123;&#123;&apos;&#125;&#125;&apos;&#125;&#125;: of job &#123;&#123; DockerName &#125;&#125; has been down for more than 5 min.&quot;</span><br><span class="line">      description: &quot;&#123;&#123;&apos;&#123;&#123;&apos;&#125;&#125;&quot;$labels.hostname&quot;&#123;&#123;&apos;&#125;&#125;&apos;&#125;&#125;: &#123;&#123; DockerName &#125;&#125; down !&quot;</span><br><span class="line">&quot;&quot;&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">with  open(&apos;./docker_list.tmp&apos;) as  f:</span><br><span class="line">    for  line in f:</span><br><span class="line">        docker_name=line.strip()</span><br><span class="line">        print(template.render(IP=ip,JOB=JOB,DockerName=docker_name))</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/03/jinja2-模板不出特殊字符/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-运维工程师面试题及问题整理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -548,22 +612,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">zabbix_server</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">zabbix_agent</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">运维面试</a>
               </li>
              
@@ -577,6 +625,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">常用运维面试题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">zabbix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">zabbix_server</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">zabbix_agent</a>
               </li>
             
             <div class="clearfix"></div>

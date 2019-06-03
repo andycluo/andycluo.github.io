@@ -6,16 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://www.mluoky.com">
-  <title>主页 | Andy Luo</title>
+  <title>jinja2 模板不出特殊字符 | Andy Luo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="主页">
-<meta property="og:url" content="http://www.mluoky.com/主页/index.html">
+  <meta name="description" content="1234在用python的模板引擎jinja2时，发现一个问题，由于它是匹配&amp;#123;&amp;#123;&amp;#125;&amp;#125;双花括号的，所以一旦遇到花括号的时候他就会识别出来，但是某些情况下我们是不想让他识别的，这时候可以对不想让他识别的进行特殊处理：&amp;#123;&amp;#123;&amp;apos;这里是不让他处理的内容&amp;apos;&amp;#125;&amp;#125;。这样类似的表达式，这时候是不希望引擎去处理这个花括号">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jinja2 模板不出特殊字符">
+<meta property="og:url" content="http://www.mluoky.com/2019/06/03/jinja2-模板不出特殊字符/index.html">
 <meta property="og:site_name" content="Andy Luo">
+<meta property="og:description" content="1234在用python的模板引擎jinja2时，发现一个问题，由于它是匹配&amp;#123;&amp;#123;&amp;#125;&amp;#125;双花括号的，所以一旦遇到花括号的时候他就会识别出来，但是某些情况下我们是不想让他识别的，这时候可以对不想让他识别的进行特殊处理：&amp;#123;&amp;#123;&amp;apos;这里是不让他处理的内容&amp;apos;&amp;#125;&amp;#125;。这样类似的表达式，这时候是不希望引擎去处理这个花括号">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-10T07:19:45.971Z">
+<meta property="og:updated_time" content="2019-06-03T12:28:07.786Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="主页">
+<meta name="twitter:title" content="jinja2 模板不出特殊字符">
+<meta name="twitter:description" content="1234在用python的模板引擎jinja2时，发现一个问题，由于它是匹配&amp;#123;&amp;#123;&amp;#125;&amp;#125;双花括号的，所以一旦遇到花括号的时候他就会识别出来，但是某些情况下我们是不想让他识别的，这时候可以对不想让他识别的进行特殊处理：&amp;#123;&amp;#123;&amp;apos;这里是不让他处理的内容&amp;apos;&amp;#125;&amp;#125;。这样类似的表达式，这时候是不希望引擎去处理这个花括号">
   
     <link rel="alternative" href="/atom.xml" title="Andy Luo" type="application/atom+xml">
   
@@ -151,27 +154,29 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-jinja2-模板不出特殊字符" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      主页
+      jinja2 模板不出特殊字符
     </h1>
   
 
         
-        <a href="/主页/index.html" class="archive-article-date">
-  	<time datetime="2019-05-10T07:19:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-10</time>
+        <a href="/2019/06/03/jinja2-模板不出特殊字符/" class="archive-article-date">
+  	<time datetime="2019-06-03T12:27:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在用python的模板引擎jinja2时，发现一个问题，由于它是匹配&#123;&#123;&#125;&#125;双花括号的，所以一旦遇到花括号的时候他就会识别出来，但是某些情况下我们是不想让他识别的，这时候可以对不想让他识别的进行特殊处理：&#123;&#123;&apos;这里是不让他处理的内容&apos;&#125;&#125;。</span><br><span class="line">这样类似的表达式，这时候是不希望引擎去处理这个花括号的，所以可以改写为</span><br><span class="line">#&#123;&#123;&apos;&#123;&apos;&#125;&#125;id, jdbcType=integer&#123;&#123;&apos;&#125;&apos;&#125;&#125;,</span><br><span class="line">前后都加两个花括号和一个引号即可。</span><br></pre></td></tr></table></figure>
+<p>例如下面的模板<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">from jinja2 import Template</span><br><span class="line">ip = &quot;192.168.8.19&quot;</span><br><span class="line">JOB= &quot;toc&quot;</span><br><span class="line">docker_name=&quot;&quot;</span><br><span class="line">template = Template(&quot;&quot;&quot;</span><br><span class="line">  - alert: container_instercen_down</span><br><span class="line">    expr: absent(container_last_seen&#123;hostname=&quot;&#123;&#123; IP &#125;&#125;:58080&quot;,name=&quot;&#123;&#123; DockerName &#125;&#125;&quot;&#125;) == 1</span><br><span class="line">    for: 5m</span><br><span class="line">    labels:</span><br><span class="line">      job: &#123;&#123; JOB &#125;&#125;</span><br><span class="line">    annotations:</span><br><span class="line">      summary: &quot;&#123;&#123;&apos;&#123;&#123;&apos;&#125;&#125;&quot;$labels.hostname&quot;&#123;&#123;&apos;&#125;&#125;&apos;&#125;&#125;: of job &#123;&#123; DockerName &#125;&#125; has been down for more than 5 min.&quot;</span><br><span class="line">      description: &quot;&#123;&#123;&apos;&#123;&#123;&apos;&#125;&#125;&quot;$labels.hostname&quot;&#123;&#123;&apos;&#125;&#125;&apos;&#125;&#125;: &#123;&#123; DockerName &#125;&#125; down !&quot;</span><br><span class="line">&quot;&quot;&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">with  open(&apos;./docker_list.tmp&apos;) as  f:</span><br><span class="line">    for  line in f:</span><br><span class="line">        docker_name=line.strip()</span><br><span class="line">        print(template.render(IP=ip,JOB=JOB,DockerName=docker_name))</span><br></pre></td></tr></table></figure></p>
+
       
 
       
@@ -260,7 +265,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://www.mluoky.com/主页/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://www.mluoky.com/2019/06/03/jinja2-模板不出特殊字符/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -272,6 +277,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/09/运维工程师面试题及问题整理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">运维工程师面试题及问题整理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -322,7 +337,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
